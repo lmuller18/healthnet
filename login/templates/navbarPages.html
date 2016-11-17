@@ -1,0 +1,37 @@
+<!-- Navigation
+    ==========================================-->
+    <nav id="tf-menu" class="navbar navbar-default navbar-fixed-top" style="background-color: #222222; height: 10%">
+      <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">HealthNet</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        {% if user.is_authenticated %}
+          <ul class="nav navbar-nav navbar-right">
+              <li><a href="/dashboard/">Dashboard</a></li>
+              <li class="dropdown">
+                  <a class="dropdown-toggle" data-toggle="dropdown" href="#">Navigation Links
+                      <span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                      <li><a href="/appointment/">Appointments</a></li>
+                      <li><a href="/prescriptions/">Prescriptions</a></li>
+                      <li><a href="/messaging/">Messages</a> </li>
+                      <li><a href="/testResult/">Test Results</a></li>
+                      <li><a href="/search/">Search</a></li>
+                  </ul>
+              </li>
+              <li><a href="/logout/">Log Out</a></li>
+          </ul>
+        {% endif %}
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>

@@ -1,0 +1,310 @@
+body{
+    background-color: #eee;
+}
+
+.topMargin{
+    margin-top: 80px
+}
+
+.centerLeft{
+    display: inline-block;
+    text-align: left;
+}
+
+.noBullet{
+    font-size: larger;
+    list-style-type: none;
+}
+
+.bulletPadding{
+    padding-right: 5px
+}
+
+.secondaryColor{
+    color: #5a5a5a
+}
+
+.secondaryColor:hover{
+    color: #31708f;
+}
+
+input,
+select,
+textarea{
+    transition: all 0.5s ease;
+    margin: 10px 0 10px 0;
+    border: 1px solid #C8C8C8;
+    border-radius: 3px;
+    font-size: 1em;
+    color: #5a5a5a;
+    padding: 5px;
+}
+
+input:hover,
+select:hover,
+textarea:hover{
+    box-shadow: 0 0 2px #31708f inset;
+    background-color: #FFF;
+    border: 1px solid #31708f;
+    outline: none;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    background-color: #FFF;
+    border: 1px solid #C8C8C8;
+    outline: none;
+}
+
+.expand{
+    width: 100%;
+    margin: 2px;
+    padding: 5px;
+}
+
+label{
+    margin: 10px;
+    border-radius: 3px;
+    font-size: 1em;
+    color: #5a5a5a;
+    padding: 5px;
+}
+
+.content{
+    flex: 0.85 1 0;
+    padding: 10px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 10px 20px 20px 20px;
+    margin: 0;
+}
+
+.hrline {
+    margin: 15px 20%;
+    border: 0;
+    border-top: 1px solid #979797;
+}
+
+.button-link{ color: #5a5a5a;}
+.button-link:hover,
+.button-link:focus{
+	text-decoration: none;
+	color: #31708f;
+}
+
+.truncate {
+    width: 350px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.left {
+    float: left;
+    width: 50%;
+    padding-left: 5%;
+    padding-right: 15px;
+}
+
+.right {
+    float: right;
+    width: 50%;
+    padding-left: 15px;
+    padding-right: 5%;
+}
+
+ul.nav li.dropdown:hover > ul.dropdown-menu {
+    display: block;
+}
+
+.tableAlign {
+    padding-left: 15px;
+    width: 150px
+}
+
+#calendar {
+    max-width:1400px;
+    padding: 0 20px 20px 0;
+}
+
+#patientDash{
+	background: url('/static/img/dashboardHeader.jpg');
+	background-size: cover;
+	background-position: center;
+	background-attachment: fixed;
+	background-repeat: no-repeat;
+	color: #ffffff;
+}
+#patientDash .overlay {
+    background: rgba(0, 0, 0, 0.55);
+    height: auto;
+    background-attachment: fixed;
+    padding: 80px 0;
+}
+
+#doctorDash{
+	background: url('/static/img/doctorDashboardHeader.png');
+	background-size: cover;
+	background-position: center;
+	background-attachment: fixed;
+	background-repeat: no-repeat;
+	color: #ffffff;
+}
+#doctorDash .overlay {
+    background: rgba(0, 0, 0, 0.55);
+    height: auto;
+    background-attachment: fixed;
+    padding: 80px 0;
+}
+
+#prescriptionDash{
+	background: url('/static/img/prescriptions.jpg');
+	background-size: cover;
+	background-position: center;
+	background-attachment: fixed;
+	background-repeat: no-repeat;
+	color: #ffffff;
+}
+#prescriptionDash .overlay {
+    background: rgba(0, 0, 0, 0.55);
+    height: auto;
+    background-attachment: fixed;
+    padding: 80px 0;
+}
+
+#messagingDash{
+	background: url('/static/img/messaging.jpg');
+	background-size: cover;
+	background-position: center;
+	background-attachment: fixed;
+	background-repeat: no-repeat;
+	color: #ffffff;
+}
+
+#messagingDash .overlay {
+    background: rgba(0, 0, 0, 0.55);
+    height: auto;
+    background-attachment: fixed;
+    padding: 80px 0;
+}
+
+#appointmentDash{
+	background: url('/static/img/appointments.jpg');
+	background-size: cover;
+	background-position: center;
+	background-attachment: fixed;
+	background-repeat: no-repeat;
+	color: #ffffff;
+}
+
+#appointmentDash .overlay {
+    background: rgba(0, 0, 0, 0.35);
+    height: auto;
+    background-attachment: fixed;
+    padding: 80px 0;
+}
+
+#adminReg{
+	background: url('/static/img/adminReg.jpg');
+	background-size: cover;
+	background-position: center;
+	background-attachment: fixed;
+	background-repeat: no-repeat;
+	color: #ffffff;
+}
+
+#adminReg .overlay {
+    background: rgba(0, 0, 0, 0.35);
+    height: auto;
+    background-attachment: fixed;
+    padding: 80px 0;
+}
+
+#registrationDash{
+	background: url('/static/img/registration.jpg');
+	background-size: cover;
+	background-position: center;
+	background-attachment: fixed;
+	background-repeat: no-repeat;
+	color: #ffffff;
+}
+
+#registrationDash .overlay {
+    background: rgba(0, 0, 0, 0.35);
+    height: auto;
+    background-attachment: fixed;
+    padding: 80px 0;
+}
+
+#resultDash{
+	background: url('/static/img/testResult.jpg');
+	background-size: cover;
+	background-position: center;
+	background-attachment: fixed;
+	background-repeat: no-repeat;
+	color: #ffffff;
+}
+
+#resultDash .overlay {
+    background: rgba(0, 0, 0, 0.35);
+    height: auto;
+    background-attachment: fixed;
+    padding: 80px 0;
+}
+
+#search{
+	background: url('/static/img/search.jpg');
+	background-size: cover;
+	background-position: center;
+	background-attachment: fixed;
+	background-repeat: no-repeat;
+	color: #ffffff;
+}
+
+#search .overlay {
+    background: rgba(0, 0, 0, 0.35);
+    height: auto;
+    background-attachment: fixed;
+    padding: 80px 0;
+}
+
+.jumboDash {
+    border-radius: 25px;
+    margin: 0 20%;
+    background-color: rgba(141, 141, 141, 0.37);
+    padding:5px 0 5px 0;
+}
+
+.pointer:hover {
+    cursor:pointer;
+}
+
+.nonEditable {
+    float: left;
+    font-size: 12px;
+    font-weight: 400;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.messageHr {
+    border-top: 4px solid #31708f;
+	width: 40px;
+	margin-top: 10px;
+}
+
+.truncateContent {
+    width: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.errors {
+    box-shadow: 0 0 2px #992222 inset;
+    background-color: #FFF;
+    border: 1px solid #992222;
+    outline: none;
+}

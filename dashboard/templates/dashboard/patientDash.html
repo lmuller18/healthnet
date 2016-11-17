@@ -1,0 +1,273 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+  <head>
+    <!-- Basic Page Needs
+    ================================================== -->
+    <meta charset="utf-8">
+    <!--[if IE]><meta http-equiv="x-ua-compatible" content="IE=9" /><![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HealthNet</title>
+    <meta name="description" content="Homepage for HealthNet System">
+    <meta name="author" content="ThemeForces.com, Liam Muller">
+
+    <!-- Favicons
+    ================================================== -->
+    <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css"  href="/static/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/static/fonts/font-awesome/css/font-awesome.css">
+
+    <!-- Slider
+    ================================================== -->
+    <link href="/static/css/owl.carousel.css" rel="stylesheet" media="screen">
+    <link href="/static/css/owl.theme.css" rel="stylesheet" media="screen">
+
+    <!-- Stylesheet
+    ================================================== -->
+    <link rel="stylesheet" type="text/css"  href="/static/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/responsive.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/custom.css">
+
+    <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,700,300,600,800,400' rel='stylesheet' type='text/css'>
+
+    <script type="text/javascript" src="/static/js/modernizr.custom.js"></script>
+
+    <link rel='stylesheet' href="{% static 'dashboard/fullcalendar/fullcalendar.css' %}" />
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <div style="padding-bottom: 50px">
+        {% include "navbarPages.html" %}
+    </div>
+
+    <div style="width: 75%; padding-top: 5%; margin: 0 auto">
+        <div class="panel panel-info" style="border-radius: 20px 20px 0 0">
+        <div id="doctorDash" class="text-center" style="border-radius: 20px 20px 0 0">
+        <div class="overlay" style="border-radius: 20px 20px 0 0">
+            <div class="panel-heading">
+                <div class="jumbotron jumboDash">
+                    <div class="container text-center">
+                        <h1>My <span style="color: #333">HealthNet</span> </h1>
+                    </div>
+                </div>
+            </div>
+        </div></div>
+            <div class="row" style="padding-top: 15px">
+                <div class="col-lg-2 left">
+                    <div class="panel panel-info">
+                        <div class="panel-heading"><a href="/messaging/" style="color: inherit">Recent Messages</a>
+                            <i class="fa fa-caret-square-o-down" id="messageHide"></i></div>
+                        {% if message_list %}
+                            <div id="messageData" style="display: block; max-height: 300px;overflow-y: auto;">
+                            <table class="table table-striped" >
+                            {% for message in message_list %}
+                                    <tr>
+                                        <td class="tableAlign">
+                                            <a style="color: inherit" href="/messaging/{{ message.id }}/view">
+                                                {{ message.sender.first_name }} {{ message.sender.last_name }}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a style="color: inherit" href="/messaging/{{ message.id }}/view">
+                                                <div class="truncate">
+                                                    <strong>{{ message.subject }}</strong>
+                                                    {% if message.count > 1 %}
+                                                        ({{ message.count }})
+                                                    {% endif %}
+                                                    <span style="color: rgb(167, 167, 167);">
+                                                        - {{ message.content }}
+                                                    </span>
+                                                </div>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                            </div>
+                        {% else %}
+                            <div class="panel-body" id="messageData">
+                                <p>No Recent Messages</p>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="panel panel-info">
+                        <div class="panel-heading"><a href="/prescriptions/" style="color: inherit">Active Prescriptions</a>
+                            <i class="fa fa-caret-square-o-down" id="prescriptionHide"></i></div>
+                        {% if prescription_list %}
+                            <div id="prescriptionData" style="display: block; max-height: 300px;overflow-y: auto;">
+                            <table class="table table-striped">
+                                {% for prescription in prescription_list %}
+                                    <tr>
+                                        <td class="tableAlign">
+                                            <a style="color: inherit" href="/prescriptions/{{ prescription.id }}/view">
+                                                {{ prescription }}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a style="color: inherit" href="/prescriptions/{{ prescription.id }}/view">
+                                                Expires on {{ prescription.p_expiration }}
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                            </div>
+                        {% else %}
+                            <div class="panel-body" id="prescriptionData">
+                                <p>No Active Prescriptions</p>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="panel panel-info">
+                        <div class="panel-heading"><a href="/testResult/" style="color: inherit">New Test Results</a>
+                            <i class="fa fa-caret-square-o-down" id="testHide"></i>
+                        </div>
+                        {% if result_list %}
+                            <div id="testData" style="max-height: 300px;overflow-y: auto;">
+                                <table class="table table-striped">
+                                    {% for result in result_list %}
+                                        <tr>
+                                            <td class="tableAlign" style="cursor: pointer">
+                                                <a style="color:inherit" href="/testResult/{{ result.id }}/view/">
+                                                <strong>
+                                                    {{ result.t_testname }}
+                                                </strong>
+                                                </a>
+                                            </td>
+                                            <td style="cursor: pointer">
+                                                <a style="color:inherit" href="/testResult/{{ result.id }}/view/">
+                                                Released by Dr. {{ result.t_doctor.fName }} {{ result.t_doctor.lName }}
+                                                on {{ result.t_created}}
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                        {% else %}
+                            <div class="panel-body" id="testData">
+                                <p>No Released Test Results</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="panel panel-info">
+                        <div class="panel-heading"><a href="/registration/profile/" style="color: inherit">My Info</a>
+                            <i class="fa fa-caret-square-o-down" id="infoHide"></i></div>
+                        <div id="infoData" style="display:block;margin-bottom: -20px">
+                        <table class="table table-striped">
+                            {% for field in form %}
+                                <tr>
+                                    <td style="padding-left: 15px">{{ field.label }}</td>
+                                    <td>{{ field.value }}</td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 right">
+                    <div class="panel panel-info">
+                        <div class="panel-heading"><a href="/appointment/" style="color: inherit">Upcoming Appointments</a>
+                            <i class="fa fa-caret-square-o-down" id="appointmentHide"></i></div>
+                        {% if appointment_list %}
+                            <div id="appointmentData" style="max-height: 300px;overflow-y: auto;">
+                            <table class="table table-striped">
+                                {% for appointment in appointment_list %}
+                                        <tr>
+                                            <td class="tableAlign">
+                                                <a style="color: inherit" href="/appointment/{{ appointment.id }}/view">
+                                                    <strong>{{ appointment.a_date }}</strong>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a style="color: inherit" href="/appointment/{{ appointment.id }}/view">
+                                                    {{ appointment.a_title }}, {{ appointment.a_starttime }}
+                                                    with Dr. {{ appointment.a_doctor.fName }} {{ appointment.a_doctor.lName }}
+                                                </a>
+                                            </td>
+                                        </tr>
+                                {% endfor %}
+                            </table>
+                            </div>
+                        {% else %}
+                            <div class="panel-body" id="appointmentData">
+                                <p>No Upcoming Appointments</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="panel panel-info">
+                        <div class="panel-heading"><a href="/appointment/" style="color: inherit">Weekly Agenda</a>
+                            <i class="fa fa-caret-square-o-down" id="calHide"></i>
+                        </div>
+                        <div class="panel-body" id="calData">
+                            <div id='calendar'></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.1.11.1.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="/static/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/static/js/SmoothScroll.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.isotope.js"></script>
+    <script src='{% static "dashboard/lib/jquery.min.js" %}'></script>
+    <script src='{% static "dashboard/lib/moment.min.js" %}'></script>
+    <script src='{% static "dashboard/fullcalendar/fullcalendar.js" %}'></script>
+    <script>
+        var calendarData = {{ calendarData|safe }};
+        var view = "{{ view }}";
+
+        $("#messageHide").click(function (){
+            var $element = $("#messageData");
+            $element.slideToggle();
+        });
+        $("#prescriptionHide").click(function (){
+            var $element = $("#prescriptionData");
+            $element.slideToggle();
+        });
+        $("#testHide").click(function (){
+            var $element = $("#testData");
+            $element.slideToggle();
+        });
+        $("#appointmentHide").click(function (){
+            var $element = $("#appointmentData");
+            $element.slideToggle();
+        });
+        $("#calHide").click(function (){
+            var $element = $("#calData");
+            $element.slideToggle();
+        });
+        $("#infoHide").click(function (){
+            var $element = $("#infoData");
+            $element.slideToggle();
+        });
+    </script>
+    <script src='{% static "dashboard/fullcalendar/runcal.js" %}'></script>
+
+    <script src="/static/js/owl.carousel.js"></script>
+
+    <!-- Javascripts
+    ================================================== -->
+    <script type="text/javascript" src="/static/js/main.js"></script>
+
+</html>

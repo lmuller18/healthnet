@@ -1,0 +1,408 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Basic Page Needs
+    ================================================== -->
+    <meta charset="utf-8">
+    <!--[if IE]><meta http-equiv="x-ua-compatible" content="IE=9" /><![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HealthNet</title>
+    <meta name="description" content="Homepage for HealthNet System">
+    <meta name="author" content="ThemeForces.com, Liam Muller">
+
+    <!-- Favicons
+    ================================================== -->
+    <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css"  href="/static/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/static/fonts/font-awesome/css/font-awesome.css">
+
+    <!-- Slider
+    ================================================== -->
+    <link href="/static/css/owl.carousel.css" rel="stylesheet" media="screen">
+    <link href="/static/css/owl.theme.css" rel="stylesheet" media="screen">
+
+    <!-- Stylesheet
+    ================================================== -->
+    <link rel="stylesheet" type="text/css"  href="/static/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/responsive.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/custom.css">
+    <link rel="stylesheet" type="text/css" href="/static/chosen/chosen.css">
+
+    <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,700,300,600,800,400' rel='stylesheet' type='text/css'>
+
+    <script type="text/javascript" src="/static/js/modernizr.custom.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div style="padding-bottom: 50px">
+        {% include "navbarPages.html" %}
+    </div>
+
+    <div style="width: 75%; padding-top: 5%; margin: 0 auto">
+        <div class="panel panel-info" style="border-radius: 20px 20px 0 0">
+            <div id="prescriptionDash" class="text-center" style="border-radius: 20px 20px 0 0">
+                <div class="overlay" style="border-radius: 20px 20px 0 0">
+                    <div class="panel-heading">
+                        <div class="jumbotron jumboDash">
+                            <div class="container text-center">
+                                {% if doctor or isNurse%}
+                                <h1>Patient <span style="color: #333">Prescriptions</span> </h1>
+                                {% else %}
+                                <h1>My <span style="color: #333">Prescriptions</span> </h1>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="padding-top: 15px">
+                <div class="col-lg-2 left">
+                    <div class="panel panel-info">
+                        <div class="panel-heading"><a href="/prescriptions/" style="color: inherit">Prescription List</a>
+                        <i class="fa fa-caret-square-o-down" id="listHide"></i></div>
+                        {% if prescription_list %}
+                            <div id="list" style="max-height: 400px;overflow-y: auto;">
+                            <table class="table table-striped">
+                                {% for prescription in prescription_list %}
+                                    <tr class="prescription-link"
+                                        data-p_id="{{ prescription.id }}"
+                                        data-patient_name="{{ prescription.p_patient.fName }} {{ prescription.p_patient.lName }}"
+                                        data-doctor_name="{{ prescription.p_doctor.fName }} {{ prescription.p_doctor.lName }}"
+                                        data-prescription = "{{ prescription.p_prescription }}"
+                                        data-dose = "{{ prescription.p_dose }}"
+                                        data-units = "{{ prescription.p_units }}"
+                                        data-refills = "{{ prescription.p_refills }}"
+                                        data-expiration = "{{ prescription.p_expiration }}"
+                                        data-created = "{{ prescription.p_created }}">
+                                        {% if doctor %}
+                                            <td class="tableAlign" style="cursor: pointer">
+                                                <strong>
+                                                    {{ prescription.p_patient.fName }} {{ prescription.p_patient.lName }}
+                                                </strong>
+                                            </td>
+                                            <td style="cursor: pointer">
+                                                {{ prescription }}: Expires on {{ prescription.p_expiration }}
+                                            </td>
+                                        {% elif isNurse %}
+                                            <td class="tableAlign" style="cursor: pointer">
+                                                <strong>
+                                                    Dr. {{ prescription.p_doctor.fName }} {{ prescription.p_doctor.lName }}
+                                                </strong>
+                                            </td>
+                                            <td style="cursor: pointer">
+                                                {{ prescription.p_patient.fName }} {{ prescription.p_patient.lName }}
+                                            </td>
+                                            <td style="cursor: pointer">
+                                                {{ prescription }}: Expires on {{ prescription.p_expiration }}
+                                            </td>
+                                        {% else %}
+                                            <td class="tableAlign" style="cursor: pointer">
+                                                <strong>
+                                                    {{ prescription }}
+                                                </strong>
+                                            </td>
+                                            <td style="cursor: pointer">
+                                                Expires on {{ prescription.p_expiration }}
+                                            </td>
+                                        {% endif %}
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                            {% if doctor %}
+                                <div class="panel-body">
+                                    <div align="center">
+                                        <a class="btn btn-info" style="min-width: 100px;" href="/prescriptions/new/" id="new">Add Prescription</a>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% else %}
+                            <div class="panel-body" id="list">
+                                {% if not prescription_list %}
+                                    <p>No Available Prescriptions</p>
+                                {% endif %}
+                                {% if doctor %}
+                                    <div align="center">
+                                        <a class="btn btn-info" style="min-width: 100px;" href="/prescriptions/new/" id="new">Add Prescription</a>
+                                    </div>
+                                {% endif %}
+                                </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-lg-2 right">
+                    <div class="panel panel-info">
+                        <div class="panel-heading"><a href="/prescriptions/" style="color: inherit">Prescription Info</a></div>
+                        {% if prescription_list %}
+                            {% if not view %}
+                            <div class="panel-body" id="p_instructions">
+                                <p>
+                                    Select a Prescription on the Left to View
+                                </p>
+                            </div>
+                            {% endif %}
+                            <div id="viewForm" style="display: none;">
+                                <table id="viewForm" class="table table-striped">
+                                    <tr>
+                                        <td style="display: none" id="p_id">
+                                        <td class="tableAlign"><strong>Patient Name:</strong></td>
+                                        <td id="patient_name">
+                                    </tr>
+                                    <tr>
+                                        <td class="tableAlign"><strong>Doctor Name:</strong></td>
+                                        <td id="doctor_name">
+                                    </tr>
+                                    <tr>
+                                        <td class="tableAlign"><strong>Prescription:</strong></td>
+                                        <td id="p_prescription">
+                                    </tr>
+                                    <tr>
+                                        <td class="tableAlign"><strong>Dose:</strong></td>
+                                        <td id="p_dose">
+                                    </tr>
+                                    <tr>
+                                        <td class="tableAlign"><strong>Units:</strong></td>
+                                        <td id="p_units">
+                                    </tr>
+                                    <tr>
+                                        <td class="tableAlign"><strong>Refills</strong></td>
+                                        <td id="p_refills">
+                                    </tr>
+                                    <tr>
+                                        <td class="tableAlign"><strong>Expiration Date:</strong></td>
+                                        <td id="p_expiration">
+                                    </tr>
+                                    <tr>
+                                        <td class="tableAlign"><strong>Created On:</strong></td>
+                                        <td id="p_created">
+                                    </tr>
+                                </table>
+                                {% if canEdit %}
+                                    <div class="panel-body" align="center">
+                                        <a class="btn btn-info" id="edit" style="min-width: 100px;" href="#">
+                                            Edit Prescription
+                                        </a>
+                                        <a class="btn btn-info" style="min-width: 100px;" id="delete" href="#">Delete Prescription</a>
+                                        <a class="btn btn-info" id="deleteConfirm" style="display: none; min-width: 100px;" href="#">
+                                            Confirm Deletion
+                                        </a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% else %}
+                            {% if doctor %}
+                                <div class="panel-body" id="p_instructions">
+                                    <p>
+                                        Prescriptions can be created via the "Add Prescription" button on the left
+                                    </p>
+                                </div>
+                            {% else %}
+                                <div class="panel-body" id="p_instructions">
+                                    <div align="center">
+                                        You do not have any prescriptions.<br>
+                                        If you believe this to be a mistake you can message your doctor below<br><br>
+                                        <a href="/messaging/new/" class="btn btn-info" style="min-width: 100px;">Send Message</a>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+
+                        <div id="newForm" style="display: none">
+                            <form method="POST" action="">{% csrf_token %}
+                                <table class="table table-striped">
+                                    {% for field in newForm %}
+                                        {% if field.errors %}
+                                            <tr>
+                                                <td class="tableAlign alert-danger">{{ field.label_tag }}</td>
+                                                <td class="alert-danger" style="width:30%;">{{ field }}</td>
+                                                <td class="alert-danger">{{ field.errors }}</td>
+                                            </tr>
+                                        {% else %}
+                                            <tr>
+                                                <td class="tableAlign">{{ field.label_tag }}</td>
+                                                {% if field == newForm.p_doctor %}
+                                                    <td>{{ doctor.fName }} {{ doctor.lName }}</td>
+                                                {% elif field == newForm.p_patient %}
+                                                    <td style="width:30%;">{{ field }}</td>
+                                                {% else %}
+                                                    <td style="width:40%;">{{ field }}</td>
+                                                {% endif %}
+                                                <td></td>
+                                            </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                </table>
+                                <div class="panel-body" align="center">
+                                    <button class="btn btn-info" type="submit" style="width: 100px;">Save</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div id="editForm" style="display: none;">
+                            <form method="POST" action="">{% csrf_token %}
+                                <table class="table table-striped">
+                                    {% for field in editForm %}
+                                        {% if field.errors %}
+                                            <tr>
+                                                <td class="tableAlign alert-danger">{{ field.label_tag }}</td>
+                                                <td class="alert-danger" style="width:30%;">{{ field }}</td>
+                                                <td class="alert-danger">{{ field.errors }}</td>
+                                            </tr>
+                                        {% else %}
+                                            <tr>
+                                                <td class="tableAlign">{{ field.label_tag }}</td>
+                                                {% if field == editForm.p_doctor %}
+                                                    <td>{{ doctor.fName }} {{ doctor.lName }}</td>
+                                                {% elif field == editForm.p_patient %}
+                                                    <td>{{ patient.fName }} {{ patient.lName }}</td>
+                                                {% elif field == editForm.p_created %}
+                                                    <td>{{ created }}</td>
+                                                {% else %}
+                                                    <td style="width:40%;">{{ field }}</td>
+                                                {% endif %}
+                                                <td></td>
+                                            </tr>
+                                    {% endif %}
+                                {% endfor %}
+                                </table>
+                                <div class="panel-body" align="center">
+                                    <button class="btn btn-info" type="submit" style="width: 100px;">Save</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="panel-body" style="display: none" id="deleteView">
+                            {{ p.p_patient.fName }} {{ p.p_patient.lName }}'s prescription of {{ p }} has been deleted
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.1.11.1.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="/static/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/static/js/SmoothScroll.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.isotope.js"></script>
+    <script type="text/javascript" src="/static/chosen/chosen.jquery.min.js"></script>
+    <script type="text/javascript" src="/static/chosen/chosen.proto.min.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $(".chzn-select").chosen();
+}       );
+    </script>
+
+    <script type="text/javascript">
+        {% if p %}
+            window.onload = deletePrescription;
+
+        function deletePrescription(){
+            var $del = $("#deleteView");
+            var $toHide = $("#p_instructions");
+            $toHide.hide();
+            $del.slideDown();
+        }
+        {% endif %}
+
+        {% if view %}
+            window.onload = setView;
+
+        function setView(){
+            var $form = $("#viewForm");
+            $("#p_id").text({{ view.id }});
+            $("#patient_name").text("{{ view.p_patient.fName }} " + "{{ view.p_patient.lName }}");
+            $("#doctor_name").text("{{ view.p_doctor.fName }} " + "{{ view.p_doctor.lName }}");
+            $("#p_prescription").text("{{ view.p_prescription }}");
+            $("#p_dose").text("{{ view.p_dose }}");
+            $("#p_units").text("{{ view.p_units }}");
+            $("#p_refills").text("{{ view.p_refills }}");
+            $("#p_expiration").text("{{ view.p_expiration }}");
+            $("#p_created").text("{{ view.p_created }}");
+            $form.slideDown();
+        }
+        {% endif %}
+
+        {% if newForm %}
+            window.onload = newPrescription;
+
+        function newPrescription(){
+            var $form = $("#newForm");
+            var $toHide = $("#p_instructions");
+            $toHide.slideUp();
+            $form.slideDown();
+        }
+        {% endif %}
+
+        {% if editForm %}
+            window.onload = editPrescription;
+        function editPrescription(){
+            var $form = $("#editForm");
+            var $toHide = $("#p_instructions");
+            $toHide.slideUp();
+            $form.slideDown();
+        }
+        {% endif %}
+
+        $(".prescription-link").click(function () {
+            var $tr = $(this);
+            var $form = $("#viewForm");
+            var $new = $("#newForm");
+            var $edit = $("#editForm");
+            var $delete = $("#deleteView");
+            var $instruct = $("#p_instructions");
+            $edit.slideUp();
+            $instruct.slideUp();
+            $new.slideUp();
+            $delete.slideUp();
+            $form.slideUp();
+            setTimeout(function(){
+                $("#p_id").text($tr.attr("data-p_id"));
+                $("#patient_name").text($tr.attr("data-patient_name"));
+                $("#doctor_name").text($tr.attr("data-doctor_name"));
+                $("#p_prescription").text($tr.attr("data-prescription"));
+                $("#p_dose").text($tr.attr("data-dose"));
+                $("#p_units").text($tr.attr("data-units"));
+                $("#p_refills").text($tr.attr("data-refills"));
+                $("#p_expiration").text($tr.attr("data-expiration"));
+                $("#p_created").text($tr.attr("data-created"));
+                $form.slideDown();
+            }, 400);
+        });
+        $("#edit").click(function (){
+            window.location.href = "/prescriptions/"+$("#p_id").text()+"/edit/"
+        });
+        $("#delete").click(function (){
+            $("#delete").slideToggle();
+            $("#deleteConfirm").slideToggle();
+        });
+
+        $("#deleteConfirm").click(function (){
+            window.location.href = "/prescriptions/"+$("#p_id").text()+"/delete/"
+        });
+
+        $("#listHide").click(function () {
+            var $toHide = $("#list")
+            $toHide.slideToggle();
+        });
+    </script>
+
+    <script src="/static/js/owl.carousel.js"></script>
+
+    <!-- Javascripts
+    ================================================== -->
+    <script type="text/javascript" src="/static/js/main.js"></script>
+</html>
